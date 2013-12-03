@@ -1,0 +1,12 @@
+Create a maze solver.  Use the maze in maze.txt.
+You should read this file in and save it as some data structure that allows you to work with it in a sensible manner.
+In case you can't read the maze, you enter on the left side on line 4, and the exit is on the right side line 8.
+
+Tips, you can use either depth first or breadth first search. These are ways of traversing a graph.  One uses a stack, one uses a queue.
+It would be cool if you solved it both ways.
+You'll need to have some way of keeping track of the sucessful path, I'd suggest a linked list.
+
+You can see my solution at https://github.com/blake41/mazes
+
+I heavily borrowed from https://gist.github.com/AgileMantis/3143867
+as I did not know how to solve something like this.
