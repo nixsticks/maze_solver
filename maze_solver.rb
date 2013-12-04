@@ -25,7 +25,7 @@ class Maze
   end
 
   def move(x, y)
-    new_paths = paths.clone
+    new_paths = Marshal.load( Marshal.dump(paths))
     new_paths[position[0]][position[1]] = "*"
     new_paths[x][y] = "o"
     Maze.new(new_paths)
@@ -55,6 +55,7 @@ class State
   end
 
   def branches
+    # returns an array of the different possibilities.
     DIRECTIONS.map{|direction| move_toward(direction)}.compact.shuffle
   end
 
@@ -77,30 +78,12 @@ class State
   end
 end
 
-# def search(state)
-#   unvisited = []
-#   state.branches.each do |branch|
-#     unvisited << 
-#   end
-#   unvisited = state.branches.reject{|branch| @visited.include? branch.maze.paths}
-#   unvisited.each{|branch| @frontier << branch}
-# end
-
 def search(state)
   unvisited = state.branches.reject{|branch| @visited.include? branch.maze.paths}.shuffle
   unvisited.each{|branch| @frontier << branch}
 end
 
-# def branch
-#   new_branches = DIRECTIONS.map{|direction| move_toward(direction)}.compact
-#   possible = []
-#   new_branches.
-#   unvisited = state.branches.reject{|branch| @visited.include? branch.maze.paths}
-# end
-
-
-
-require 'set'                           
+require 'set'
 def solve(maze)
   @visited = Set.new
   @frontier = []
@@ -109,17 +92,16 @@ def solve(maze)
     @visited << state.maze.paths
     break if state.solution?
     search(state)
-    p state.path
-    state.maze.paths.each do |array|
-      array.each {|x| print "#{x} "}
-      puts
-    end
-    state = @frontier.shift          
+    # debugger
+    state = @frontier.shift
+    # p @frontier
   end
   state
 end
 
-p solve(Maze.new(MAZE)).paths
-
-# state: up, down, left, right
-# can move if the space is a " " and not a "#"
+solved = solve(Maze.new(MAZE))
+p solved.path
+solved.maze.paths.each do |path|
+  path.each {|x| print "#{x} "}
+  puts
+end
