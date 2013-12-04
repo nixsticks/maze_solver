@@ -8,18 +8,18 @@ end
 
 def search(solver)
   unvisited = solver.next_nodes.reject{|node| @visited.include? node.maze.paths}.shuffle
-  unvisited.each{|node| @queue << node}
+  unvisited.each{|node| @stack << node}
 end
 
 def solve(maze)
   @visited = []
-  @queue = []
+  @stack = []
   solver = Solver.new(maze)
   loop do
     @visited << solver.maze.paths
     break if solver.solution?
     search(solver)
-    solver = @queue.shift
+    solver = @stack.pop
   end
   solver
 end
