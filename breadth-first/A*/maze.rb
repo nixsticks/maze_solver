@@ -14,7 +14,7 @@ class Maze
   end
 
   def move(x, y)
-    new_paths = Marshal.load( Marshal.dump(paths))
+    new_paths = Marshal.load(Marshal.dump(paths))
     new_paths[position[0]][position[1]] = "*"
     new_paths[x][y] = "o"
     Maze.new(new_paths)
@@ -25,6 +25,12 @@ class Maze
   end
 
   def solution?
-    paths[7][8] == "o"
+    paths[7][8] == "o" || paths[8][9] == "o"
+  end
+
+  def distance_to_solution
+    solution1 = (position[0] - 7).abs + (position[1] - 8).abs
+    solution2 = (position[0] - 8).abs + (position[1] - 9).abs
+    solution1 > solution2 ? solution2 : solution1
   end
 end

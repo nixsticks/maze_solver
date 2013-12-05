@@ -29,12 +29,3 @@ describe Solver do
   it 'should' do
   end
 end
-
-
-# queue = [root]
-# best = -1
-# begin
-#   current = queue.shift
-#   best = [current, best].max
-#   current.children.each {|child| queue.push child }
-# end until queue.empty?

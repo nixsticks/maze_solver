@@ -25,6 +25,6 @@ class Maze
   end
 
   def solution?
-    paths[7][8] == "o"
+    paths[7][8] == "o" || paths[8][9] == "o"
   end
 end
