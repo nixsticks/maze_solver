@@ -1,20 +1,12 @@
-require 'ruby-debug'
-
-class Array
-  def deep_freeze
-      each { |j| j.deep_freeze if j.respond_to? :deep_freeze }
-      freeze
-  end
-end
+puts `clear`
 
 MAZE = File.open('./maze.txt', "r") do |file|
   lines = file.readlines
   lines.map{|line| line.chomp.split("")}
-end.deep_freeze
+end
 
 class Maze
   attr_reader :paths
-  attr_accessor :steps, :visited
 
   DIRECTIONS = [[0,-1],[0,1],[-1,0],[1,0]]
 
@@ -23,31 +15,28 @@ class Maze
       lines = file.readlines
       lines.map{|line| line.chomp.split("")}
     end
-    @steps = []
-    @visited = []
   end
 
   def move(x,y)
     DIRECTIONS.shuffle.each do |direction|
       next_x = x + direction[0]
       next_y = y + direction[1]
-      paths[x][y] = " "
+      paths[x][y] = "*"
+
+      if [next_x, next_y] == solution?
+        paths[next_x][next_y] = "X"
+        display paths
+        exit
+      end
 
       if can_move(next_x, next_y)
-        paths[next_x][next_y] = "*"
-        visited << [next_x, next_y]
         display paths
         move(next_x, next_y)
-        if solution?
-          paths[next_x][next_y] = "O"
-          p visited
-          Kernel.exit
-        end
-      else
-        visited = [] unless solution?
+      end
+
+      paths[x][y] = " "
       end
     end
-  end
 
   def display(paths)
     puts
@@ -55,23 +44,16 @@ class Maze
       array.each {|x| print "#{x} "}
       puts
     end
-    puts "\e[H"
-    sleep(0.5)
-  end
-
-  def reset
-    @paths = File.open('./maze.txt', "r") do |file|
-      lines = file.readlines
-      lines.map{|line| line.chomp.split("")}
-    end
+    puts "\e[H\e[?25l"
+    sleep(0.2)
   end
 
   def can_move(x, y)
-    paths[x][y] == " " && visited.include?([x,y]) == false
+    paths[x][y] == " "
   end
 
   def solution?
-    paths[7][8] == "*" || paths[7][9] == "*"
+    [7,8] || [8,9]
   end
 end
 
