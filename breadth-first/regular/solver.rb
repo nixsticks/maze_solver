@@ -13,7 +13,7 @@ class Solver
   end
 
   def next_nodes
-    DIRECTIONS.map{|direction| move_toward(direction)}.compact.shuffle
+    DIRECTIONS.map{|direction| move_toward(direction)}.compact
   end
 
   def move_toward(direction)

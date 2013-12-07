@@ -1,5 +1,6 @@
 require_relative 'maze'
 require_relative 'solver'
+require 'ruby-debug'
 
 maze = File.open('./maze.txt', "r") do |file|
   lines = file.readlines
@@ -7,8 +8,8 @@ maze = File.open('./maze.txt', "r") do |file|
 end
 
 def search(solver)
-  unvisited = solver.next_nodes.reject{|node| @visited.include? node.maze.paths}.shuffle
-  unvisited.each{|node| @queue << node}
+  unvisited = solver.next_nodes.reject {|node| @visited.include?(node.maze.paths)}.shuffle
+  unvisited.each {|node| @queue << node}
 end
 
 def solve(maze)

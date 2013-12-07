@@ -7,9 +7,8 @@ maze = File.open('./maze.txt', "r") do |file|
   lines.map{|line| line.chomp.split("")}
 end
 
-def search(solver)
-  unvisited = solver.next_nodes.reject{|node| @visited.include? node.maze.paths}.shuffle
-  unvisited.each{|node| @queue << node}
+def branches(solver)
+  solver.next_nodes.reject{|node| @visited.include?(node.maze.paths)}.shuffle
 end
 
 def solve(maze)
@@ -19,10 +18,17 @@ def solve(maze)
   loop do
     @visited << solver.maze.paths
     break if solver.solution?
-    search(solver)
+    branches(solver).each {|node| @queue << node}
     solver = @queue.next
   end
   solver
+end
+
+def animation(solution)
+  path = solution.path
+  solution.path.each do |direction|
+
+  end
 end
 
 solved = solve(Maze.new(maze))
