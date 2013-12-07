@@ -53,7 +53,7 @@ class Maze
   end
 
   def solution?
-    [7,8] || [8,9]
+    [7,10]
   end
 end
 
