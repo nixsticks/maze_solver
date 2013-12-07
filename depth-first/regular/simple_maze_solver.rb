@@ -6,7 +6,7 @@ MAZE = File.open('./maze.txt', "r") do |file|
 end
 
 class Maze
-  attr_reader :paths
+  attr_accessor :paths
 
   DIRECTIONS = [[0,-1],[0,1],[-1,0],[1,0]]
 
